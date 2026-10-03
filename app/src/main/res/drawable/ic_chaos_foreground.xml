@@ -1,0 +1,27 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
+    <path android:fillColor="#FFFFFF" android:fillType="evenOdd" android:pathData="M54,43 A11,11 0,1 1,54,65 A11,11 0,1 1,54,43 Z M54,48 A6,6 0,1 0,54,60 A6,6 0,1 0,54,48 Z" />
+    <group android:pivotX="54" android:pivotY="54" android:rotation="0">
+        <path android:fillColor="#FFFFFF" android:pathData="M52,44 L52,34 L47,36 L54,24 L61,36 L56,34 L56,44 Z" />
+    </group>
+    <group android:pivotX="54" android:pivotY="54" android:rotation="45">
+        <path android:fillColor="#FFFFFF" android:pathData="M52,44 L52,34 L47,36 L54,24 L61,36 L56,34 L56,44 Z" />
+    </group>
+    <group android:pivotX="54" android:pivotY="54" android:rotation="90">
+        <path android:fillColor="#FFFFFF" android:pathData="M52,44 L52,34 L47,36 L54,24 L61,36 L56,34 L56,44 Z" />
+    </group>
+    <group android:pivotX="54" android:pivotY="54" android:rotation="135">
+        <path android:fillColor="#FFFFFF" android:pathData="M52,44 L52,34 L47,36 L54,24 L61,36 L56,34 L56,44 Z" />
+    </group>
+    <group android:pivotX="54" android:pivotY="54" android:rotation="180">
+        <path android:fillColor="#FFFFFF" android:pathData="M52,44 L52,34 L47,36 L54,24 L61,36 L56,34 L56,44 Z" />
+    </group>
+    <group android:pivotX="54" android:pivotY="54" android:rotation="225">
+        <path android:fillColor="#FFFFFF" android:pathData="M52,44 L52,34 L47,36 L54,24 L61,36 L56,34 L56,44 Z" />
+    </group>
+    <group android:pivotX="54" android:pivotY="54" android:rotation="270">
+        <path android:fillColor="#FFFFFF" android:pathData="M52,44 L52,34 L47,36 L54,24 L61,36 L56,34 L56,44 Z" />
+    </group>
+    <group android:pivotX="54" android:pivotY="54" android:rotation="315">
+        <path android:fillColor="#FFFFFF" android:pathData="M52,44 L52,34 L47,36 L54,24 L61,36 L56,34 L56,44 Z" />
+    </group>
+</vector>

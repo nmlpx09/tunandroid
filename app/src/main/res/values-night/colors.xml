@@ -1,0 +1,7 @@
+<resources>
+    <color name="background">#121A17</color>
+    <color name="text_primary">#E3EEE8</color>
+    <color name="text_secondary">#B3C3BA</color>
+    <color name="accent">#80CBC4</color>
+    <bool name="light_system_bars">false</bool>
+</resources>

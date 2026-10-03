@@ -1,0 +1,8 @@
+<resources>
+    <color name="launcher_background">#000000</color>
+    <color name="background">#F3F6F5</color>
+    <color name="text_primary">#182B26</color>
+    <color name="text_secondary">#454C49</color>
+    <color name="accent">#00796B</color>
+    <bool name="light_system_bars">true</bool>
+</resources>

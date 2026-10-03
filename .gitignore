@@ -1,0 +1,33 @@
+# Gradle and Android build outputs
+.gradle/
+.kotlin/
+**/build/
+*.apk
+*.aab
+*.apks
+*.idsig
+*.class
+*.dex
+
+# Local SDK paths and signing credentials
+local.properties
+keystore.properties
+signing.properties
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.pem
+*.key
+.env
+.env.*
+!.env.example
+
+# IDE and operating-system files
+.idea/
+*.iml
+.vscode/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
