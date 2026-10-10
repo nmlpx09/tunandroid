@@ -9,7 +9,7 @@ Before submitting a change, run:
 ./gradlew assembleDebug lintDebug assembleRelease lintRelease
 ```
 
-Protocol tests run against the GPL-2.0 reference tables bundled in `tests/fixtures`. If the wire format changes, compare the fixture and Android codec with the matching tundriver server version and document compatibility.
+Protocol tests check the RC4 packet transform used by tundriver. If the wire format changes, compare the Android codec with the matching tundriver server version and document compatibility.
 
 For VPN lifecycle changes, test Connect → Disconnect → Connect on an Android device. Verify that disconnect closes the TUN interface, stops the foreground service and permits reconnect. Also check notification disconnect and system VPN permission revocation. Build checks do not verify live server forwarding.
 

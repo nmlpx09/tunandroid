@@ -2,14 +2,16 @@
 package org.tnet.android;
 
 public final class TunnelConfig {
-    public final String server, address, dns;
+    public final String server, address, dns, key;
     public final int port, mtu;
-    public TunnelConfig(String server, String port, String address, String dns, String mtu) {
+    public TunnelConfig(String server, String port, String address, String dns, String mtu, String key) {
         this.server = ipv4(server, "Server");
         this.address = ipv4(address, "Tunnel address");
         this.dns = ipv4(dns, "DNS");
         this.port = number(port, 1, 65535, "Port");
         this.mtu = number(mtu, 576, 1472, "MTU");
+        if (key == null || key.isEmpty()) throw new IllegalArgumentException("Key must not be empty");
+        this.key = key;
         if (this.address.equals(this.server)) throw new IllegalArgumentException("Tunnel address must differ from server");
     }
     private static int number(String text, int min, int max, String name) {

@@ -48,7 +48,8 @@ public final class TunnelService extends VpnService {
         TunnelConfig config;
         try {
             config = new TunnelConfig(intent.getStringExtra("server"), intent.getStringExtra("port"),
-                    intent.getStringExtra("address"), intent.getStringExtra("dns"), intent.getStringExtra("mtu"));
+                    intent.getStringExtra("address"), intent.getStringExtra("dns"), intent.getStringExtra("mtu"),
+                    intent.getStringExtra("key"));
         } catch (RuntimeException e) {
             status = "Invalid settings: " + e.getMessage();
             stopSelf();
@@ -177,6 +178,7 @@ public final class TunnelService extends VpnService {
         }
         void sendPackets() {
             byte[] data = new byte[65535];
+            PacketCodec codec = new PacketCodec(config.key, config.mtu);
             StructPollfd poll = new StructPollfd();
             poll.fd = tun.getFileDescriptor();
             poll.events = (short) OsConstants.POLLIN;
@@ -191,7 +193,7 @@ public final class TunnelService extends VpnService {
                     catch (ErrnoException e) { if (e.errno == OsConstants.EAGAIN) continue; throw e; }
                     if (length <= 0) throw new IOException("VPN interface ended");
                     if (!PacketCodec.isIpv4(data, length) || length > config.mtu) continue;
-                    PacketCodec.encode(data, length);
+                    codec.encode(data, length);
                     socket.send(new DatagramPacket(data, length));
                     sent += length;
                 }
@@ -199,13 +201,14 @@ public final class TunnelService extends VpnService {
         }
         void receivePackets() {
             byte[] data = new byte[65535];
+            PacketCodec codec = new PacketCodec(config.key, config.mtu);
             DatagramPacket packet = new DatagramPacket(data, data.length);
             try {
                 while (running) {
                     packet.setLength(data.length);
                     try { socket.receive(packet); } catch (SocketTimeoutException ignored) { continue; }
                     int length = packet.getLength();
-                    PacketCodec.decode(data, length);
+                    codec.decode(data, length);
                     if (length > config.mtu || !PacketCodec.isIpv4(data, length) || !PacketCodec.addressedTo(data, config.address)) continue;
                     try {
                         int written = Os.write(tun.getFileDescriptor(), data, 0, length);

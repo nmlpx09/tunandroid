@@ -4,7 +4,7 @@ Native Java Android client for the Linux [tundriver / tnet server](https://githu
 
 The app follows the phone's system light or dark appearance, including text, controls, dialogs and system bars.
 
-The app forwards IPv4 TUN packets as UDP datagrams using the exact byte substitution from the server's `crypt/table.h`. There is no framing, handshake, authentication or secure encryption. This is the existing tnet protocol, not WireGuard or OpenVPN. HTTPS remains necessary for sensitive traffic. IPv6 is blocked while the tunnel is active.
+The app forwards IPv4 TUN packets as UDP datagrams using the same RC4-derived fixed keystream as tundriver's `crypt/impl.c`. There is no framing, handshake, authentication or modern secure encryption. This is the existing tnet protocol, not WireGuard or OpenVPN. HTTPS remains necessary for sensitive traffic. IPv6 is blocked while the tunnel is active.
 
 ## Build and install
 
@@ -37,7 +37,7 @@ sudo tun c
 1. Enter the server's reachable **numeric IPv4 address**. Hostnames and IPv6 endpoints are not supported.
 2. Set the matching UDP port (default `69`).
 3. Give the phone an unused address in the server subnet (default `10.0.3.2`). Do not use the server's `.1` address, subnet `.0`, broadcast `.255`, or an address assigned to another client. The current server indexes peers by the last IPv4 octet, so that octet must also be unique across all clients.
-4. Use an IPv4 DNS resolver reachable through the server (default `1.1.1.1`). Set MTU between 576 and 1472; try 1400 for a smaller underlying path MTU.
+4. Use an IPv4 DNS resolver reachable through the server (default `1.1.1.1`). Set MTU between 576 and 1472; try 1400 for a smaller underlying path MTU. Enter the same RC4 key as the server's `key` module parameter.
 5. Tap **Connect**, acknowledge the protocol notice, and approve Android's VPN request. Notification permission is optional; granting it makes the foreground VPN notification visible in the drawer.
 6. Open an HTTPS website. Check that received bytes increase and the website sees the Linux server's public IP.
 
@@ -50,7 +50,7 @@ The tunnel can start even when the server is unreachable: UDP connect and TUN cr
 ./gradlew assembleDebug lintDebug
 ```
 
-The standalone JDK test checks all 256 encode/decode entries against the actual kernel tables, packet round trips up to the server MTU, truncated/malformed IPv4 rejection, destination filtering and invalid configuration rejection. No Android SDK is needed for this test. The default reference table is bundled in `tests/fixtures`, so no server checkout is needed. To check another server revision, run `./tests/run.sh /path/to/tundriver/crypt/table.h`. Fixture provenance is documented in [tests/fixtures/README.md](tests/fixtures/README.md).
+The standalone JDK test checks the RC4 keystream against tundriver's algorithm, packet round trips up to the server MTU, truncated/malformed IPv4 rejection, destination filtering and invalid configuration rejection. No Android SDK is needed for this test.
 
 Device checks should cover: VPN consent, Wi-Fi/cellular forwarding, DNS, IPv6 blocking, notification disconnect, reconnect, permission revocation, and unreachable-server behavior. No live server connection or emulator test is included in the build checks.
 
@@ -72,4 +72,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the development checks and device tes
 
 ## License
 
-GPL-2.0, matching the tundriver server. The substitution table is derived from `crypt/table.h`, copyright 2026 nlmpx09. See [LICENSE](LICENSE).
+GPL-2.0, matching the tundriver server. The RC4 packet transform follows tundriver's `crypt/impl.c`, copyright 2026 nlmpx09. See [LICENSE](LICENSE).
