@@ -193,8 +193,8 @@ public final class TunnelService extends VpnService {
                     catch (ErrnoException e) { if (e.errno == OsConstants.EAGAIN) continue; throw e; }
                     if (length <= 0) throw new IOException("VPN interface ended");
                     if (!PacketCodec.isIpv4(data, length) || length > config.mtu) continue;
-                    codec.encode(data, length);
-                    socket.send(new DatagramPacket(data, length));
+                    int encryptedLength = codec.encode(data, length);
+                    socket.send(new DatagramPacket(data, encryptedLength));
                     sent += length;
                 }
             } catch (Exception e) { fail(e); }
@@ -207,8 +207,7 @@ public final class TunnelService extends VpnService {
                 while (running) {
                     packet.setLength(data.length);
                     try { socket.receive(packet); } catch (SocketTimeoutException ignored) { continue; }
-                    int length = packet.getLength();
-                    codec.decode(data, length);
+                    int length = codec.decode(data, packet.getLength());
                     if (length > config.mtu || !PacketCodec.isIpv4(data, length) || !PacketCodec.addressedTo(data, config.address)) continue;
                     try {
                         int written = Os.write(tun.getFileDescriptor(), data, 0, length);

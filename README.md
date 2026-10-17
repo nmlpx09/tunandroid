@@ -4,7 +4,7 @@ Native Java Android client for the Linux [tundriver / tnet server](https://githu
 
 The app follows the phone's system light or dark appearance, including text, controls, dialogs and system bars.
 
-The app forwards IPv4 TUN packets as UDP datagrams using the same RC4-derived fixed keystream as tundriver's `crypt/impl.c`. There is no framing, handshake, authentication or modern secure encryption. This is the existing tnet protocol, not WireGuard or OpenVPN. HTTPS remains necessary for sensitive traffic. IPv6 is blocked while the tunnel is active.
+The app forwards IPv4 TUN packets as UDP datagrams using the same RC4-derived keystream as tundriver's `crypt/impl.c`. Each datagram prepends a random 32-bit big-endian RC4 offset before the encrypted IPv4 payload. There is no handshake, authentication or modern secure encryption. This is the existing tnet protocol, not WireGuard or OpenVPN. HTTPS remains necessary for sensitive traffic. IPv6 is blocked while the tunnel is active.
 
 ## Build and install
 
@@ -50,7 +50,7 @@ The tunnel can start even when the server is unreachable: UDP connect and TUN cr
 ./gradlew assembleDebug lintDebug
 ```
 
-The standalone JDK test checks the RC4 keystream against tundriver's algorithm, packet round trips up to the server MTU, truncated/malformed IPv4 rejection, destination filtering and invalid configuration rejection. No Android SDK is needed for this test.
+The standalone JDK test checks the RC4 keystream and per-packet offset header against tundriver's algorithm, packet round trips up to the server MTU, truncated/malformed IPv4 rejection, destination filtering and invalid configuration rejection. No Android SDK is needed for this test.
 
 Device checks should cover: VPN consent, Wi-Fi/cellular forwarding, DNS, IPv6 blocking, notification disconnect, reconnect, permission revocation, and unreachable-server behavior. No live server connection or emulator test is included in the build checks.
 
