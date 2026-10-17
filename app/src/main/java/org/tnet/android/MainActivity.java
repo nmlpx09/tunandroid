@@ -68,7 +68,7 @@ public final class MainActivity extends Activity {
         port = field(layout, "UDP port", "port", "69", true);
         address = field(layout, "Phone tunnel IPv4 address", "address", "10.0.3.2", false);
         dns = field(layout, "DNS IPv4 address", "dns", "1.1.1.1", false);
-        mtu = field(layout, "MTU", "mtu", "1472", true);
+        mtu = field(layout, "MTU", "mtu", "1468", true);
         key = field(layout, "Key", "key", "", false);
         key.setTransformationMethod(PasswordTransformationMethod.getInstance());
         showKey = new CheckBox(this);
